@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace CSharp
 {
@@ -8,8 +9,72 @@ namespace CSharp
         {
             int[] myarray = new int[14] { 0, 2, 4, 1, 5, 7, 4, 2, 1, 14, 12, 14, 5, 455 };
             Console.WriteLine(BinarySearch(12, myarray));
+
+            int[] test = new int[8] { 1, 0, 0, 0, 0, 1, 0, 0 };
+            int[] result = new int[8];
+            result = cellCompete(test, 1);
+            foreach (var r in result)
+            {
+                Console.WriteLine(r);
+            }
+
+            int[] test1 = new int[5] { 2, 3, 4, 5, 6 };
+            int test2resut = generalizedGCD(5, test1);
+            Console.WriteLine("test2: " + test2resut);
+
         }
 
+        public static int generalizedGCD(int num, int[] arr)
+        {
+            // WRITE YOUR CODE HERE
+            int minValue = arr.Min();
+            Console.WriteLine("minvalue: " + minValue);
+            int i = minValue;
+
+            bool found = false;
+            while (!found && i > 0)
+            {
+                int j = 0;
+                double remaind = 0;
+                foreach (int a in arr)
+                {
+                    remaind += (a % i);
+                    Console.WriteLine(remaind);
+                }
+                if (remaind == 0)
+                {
+                    found = true;
+                }
+                else
+                {
+                    i--;
+                }
+            }
+            return i;
+
+        }
+        public static int[] cellCompete(int[] states, int days)
+        {
+            // INSERT YOUR CODE HERE
+            // INSERT YOUR CODE HERE
+            int i = 0;
+
+            while (i < days)
+            {
+                int[] currentstates = new int[8];
+                Array.Copy(states, currentstates, 8);
+                states[0] = currentstates[1] == 0 ? 0 : 1;
+                states[7] = currentstates[6] == 0 ? 0 : 1;
+                int j = 1;
+                while (j < 7)
+                {
+                    states[j] = currentstates[j - 1] == currentstates[j + 1] ? 0 : 1;
+                    j++;
+                }
+                i++;
+            }
+            return states;
+        }
         public static bool BinarySearch(int target, int[] nums)
         {
             // See if target appears in nums
