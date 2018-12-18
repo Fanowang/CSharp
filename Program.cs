@@ -1,9 +1,27 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace CSharp
 {
+    public class DistinationPoint
+    {
+        public int x { get; private set; }
+        public int y { get; private set; }
+        public int Distance
+        {
+            get
+            {
+                return x * x + y * y;
+            }
+        }
+        public DistinationPoint(int xd, int yd)
+        {
+            x = xd;
+            y = yd;
+        }
+    }
     class Program
     {
         static void Main(string[] args)
@@ -25,9 +43,100 @@ namespace CSharp
             Console.WriteLine(string.Join(",", mergeSort(myarray)));
 
             Console.WriteLine(checkBracks("{fdsfsd{dfdssd}kls[dsdsf(fddsd)]}"));
+            int[,] test11 = new int[3, 2] { { 1, -3 }, { 1, 2 }, { 3, 4 } };
+            Console.WriteLine(ClosestXdestinations(3, test11, 1));
 
         }
 
+        public int removeObstacle(int numRows, int numColumns, int[,] lot)
+        {
+            // WRITE YOUR CODE HERE
+            if (numRows < 1 || numColumns < 1 || numRows > 1000 || numColumns > 1000)
+            {
+                return 0;
+            }
+            /* for (int i = 0; i < numRows; i++)
+            {
+                for(int j=0;j<numColumns;j++){
+                    if(lot[i,j]==1){
+                        int[,] newArr=new int[numRows-i,numColumns-j];
+                        removeObstacle(numRows-i,numColumns-j,Array.Copy(lot,i,newArr,numColumns-j));
+                    }
+                }
+            } */
+
+            if (lot[0, 0] == 0)
+            {
+                return 0;
+            }
+            if (lot[0, 0] == 9)
+            {
+                return 1;
+            }
+
+            int result = 1;
+            int[,] rowminus = new int[numRows - 1, numColumns];
+            int[,] columnminus = new int[numRows, numColumns - 1];
+            for (int i = 0; i < numRows; i++)
+            {
+                Array.Copy(lot, 1, columnminus, i * (numColumns - 1), numColumns);
+            }
+
+            Array.Copy(lot, numColumns, rowminus, 0, lot.Length - numColumns);
+
+            return result + Math.Min(removeObstacle(numRows - 1, numColumns, rowminus), removeObstacle(numRows, numColumns - 1, columnminus));
+
+        }
+        public static List<List<int>> ClosestXdestinations(int numDestinations,
+                                                    int[,] allLocations,
+                                                    int numDeliveries)
+        {
+            // WRITE YOUR CODE HERE
+            if (numDestinations < numDeliveries)
+            {
+                return null;
+            }
+            List<List<int>> results = new List<List<int>>();
+            List<DistinationPoint> allDistance = new List<DistinationPoint>();
+            int[,] test = new int[2, 2] { { 1, 2 }, { 3, 4 } };
+
+            for (int i = 0; i < allLocations.GetLength(0); i++)
+            {
+                DistinationPoint distination = new DistinationPoint(allLocations[i, 0], allLocations[i, 1]);
+                allDistance.Add(distination);
+            }
+            List<DistinationPoint> sortedList = new List<DistinationPoint>();
+            sortedList = allDistance.OrderBy(s => s.Distance).ToList();
+            Console.WriteLine(sortedList.Count + " | " + numDeliveries);
+            for (int i = 0; i < numDeliveries; i++)
+            {
+                List<int> result = new List<int> { sortedList[i].x, sortedList[i].y };
+                results.Add(result);
+            }
+            return results;
+
+
+        }
+
+        public static List<Meeting> mergeMeetings(List<Meeting> meetings)
+        {
+            var sortedMeetings = meetings.Select(s => new Meeting(s.StartTime, s.EndTime)).OrderBy(s => s.StartTime).ToList();
+            List<Meeting> returnMeetings = new List<Meeting> { sortedMeetings[0] };
+            foreach (var meeting in sortedMeetings)
+            {
+                var latestmeeting = returnMeetings.Last();
+                if (latestmeeting.EndTime >= meeting.StartTime)
+                {
+                    latestmeeting.EndTime = Math.Max(latestmeeting.EndTime, meeting.EndTime);
+                }
+                else
+                {
+                    returnMeetings.Add(meeting);
+                }
+            }
+            return returnMeetings;
+
+        }
         public static bool checkBracks(string str)
         {
             var openerandcloser = new Dictionary<char, char>
