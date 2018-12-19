@@ -9,3 +9,14 @@ C:\Users\fano_\source\repos\CSharp\obj\Debug\netcoreapp2.1\CSharp.AssemblyInfoIn
 C:\Users\fano_\source\repos\CSharp\obj\Debug\netcoreapp2.1\CSharp.AssemblyInfo.cs
 C:\Users\fano_\source\repos\CSharp\obj\Debug\netcoreapp2.1\CSharp.dll
 C:\Users\fano_\source\repos\CSharp\obj\Debug\netcoreapp2.1\CSharp.pdb
+C:\Users\ELWang\source\repos\CSharp\bin\Debug\netcoreapp2.1\CSharp.deps.json
+C:\Users\ELWang\source\repos\CSharp\bin\Debug\netcoreapp2.1\CSharp.runtimeconfig.json
+C:\Users\ELWang\source\repos\CSharp\bin\Debug\netcoreapp2.1\CSharp.runtimeconfig.dev.json
+C:\Users\ELWang\source\repos\CSharp\bin\Debug\netcoreapp2.1\CSharp.dll
+C:\Users\ELWang\source\repos\CSharp\bin\Debug\netcoreapp2.1\CSharp.pdb
+C:\Users\ELWang\source\repos\CSharp\obj\Debug\netcoreapp2.1\CSharp.csprojAssemblyReference.cache
+C:\Users\ELWang\source\repos\CSharp\obj\Debug\netcoreapp2.1\CSharp.csproj.CoreCompileInputs.cache
+C:\Users\ELWang\source\repos\CSharp\obj\Debug\netcoreapp2.1\CSharp.AssemblyInfoInputs.cache
+C:\Users\ELWang\source\repos\CSharp\obj\Debug\netcoreapp2.1\CSharp.AssemblyInfo.cs
+C:\Users\ELWang\source\repos\CSharp\obj\Debug\netcoreapp2.1\CSharp.dll
+C:\Users\ELWang\source\repos\CSharp\obj\Debug\netcoreapp2.1\CSharp.pdb

@@ -26,7 +26,7 @@ namespace CSharp
     {
         static void Main(string[] args)
         {
-            int[] myarray = new int[14] { 0, 2, 4, 1, 5, 7, 4, 2, 1, 14, 12, 14, 5, 455 };
+            /* int[] myarray = new int[14] { 0, 2, 4, 1, 5, 7, 4, 2, 1, 14, 12, 14, 5, 455 };
             Console.WriteLine(BinarySearch(12, myarray));
             Console.WriteLine(myBinaryTreeSearch(12, myarray));
 
@@ -44,47 +44,122 @@ namespace CSharp
 
             Console.WriteLine(checkBracks("{fdsfsd{dfdssd}kls[dsdsf(fddsd)]}"));
             int[,] test11 = new int[3, 2] { { 1, -3 }, { 1, 2 }, { 3, 4 } };
-            Console.WriteLine(ClosestXdestinations(3, test11, 1));
+            Console.WriteLine(ClosestXdestinations(3, test11, 1)); */
+
+            Console.WriteLine(removeObstacle(3, 3,
+             new int[,] { { 1, 1, 1 }, { 0, 0, 1 }, { 1, 9, 1 } }));
 
         }
 
-        public int removeObstacle(int numRows, int numColumns, int[,] lot)
+        public static int nearPoint(int x, int y, int numRows, int numColumns, int[,] lot)
+        {
+            if (lot[x, y] == 9)
+            {
+                return 1;
+            }
+            if (lot[x, y] == 1)
+            {
+                int steps = 1;
+                int[] values = new int[4];
+                if (x > 1)
+                {
+                    values[0] = nearPoint(x - 1, y, numRows, numColumns, lot);
+                }
+                if (x < numRows)
+                {
+                    values[1] += nearPoint(x + 1, y, numRows, numColumns, lot);
+                }
+                if (y > 1)
+                {
+                    values[2] = nearPoint(x, y - 1, numRows, numColumns, lot);
+                }
+                if (y < numColumns)
+                {
+                    values[3] = nearPoint(x, y + 1, numRows, numColumns, lot);
+                }
+                int zcount = values.Where(s => s != 0).Count();
+                if (zcount > 1)
+                {
+                    steps += values.Min();
+                }
+                else if (zcount == 1)
+                {
+                    steps += values.Max();
+                }
+                else
+                {
+                    return 0;
+                }
+
+                return steps;
+
+
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public static int removeObstacle(int numRows, int numColumns, int[,] lot)
         {
             // WRITE YOUR CODE HERE
             if (numRows < 1 || numColumns < 1 || numRows > 1000 || numColumns > 1000)
             {
                 return 0;
             }
-            /* for (int i = 0; i < numRows; i++)
-            {
-                for(int j=0;j<numColumns;j++){
-                    if(lot[i,j]==1){
-                        int[,] newArr=new int[numRows-i,numColumns-j];
-                        removeObstacle(numRows-i,numColumns-j,Array.Copy(lot,i,newArr,numColumns-j));
-                    }
-                }
-            } */
 
-            if (lot[0, 0] == 0)
-            {
-                return 0;
-            }
-            if (lot[0, 0] == 9)
+            return nearPoint(numRows - 1, numColumns - 1, numRows, numColumns, lot);
+
+            /* if (lot[0, 0] == 9)
             {
                 return 1;
             }
 
-            int result = 1;
-            int[,] rowminus = new int[numRows - 1, numColumns];
-            int[,] columnminus = new int[numRows, numColumns - 1];
-            for (int i = 0; i < numRows; i++)
+            int steps = 1;
+            int rowresult = 0;
+            int columnresult = 0;
+            if (lot[0, 0] == 1)
             {
-                Array.Copy(lot, 1, columnminus, i * (numColumns - 1), numColumns);
+                if (numColumns > 1 && numRows > 0)
+                {
+                    int[,] columnminus = new int[numRows, numColumns - 1];
+                    for (int i = 0; i < numRows; i++)
+                    {
+                        Array.Copy(lot, i * numColumns + 1, columnminus, i * (numColumns - 1), numColumns - 1);
+                    }
+                    columnresult = removeObstacle(numRows, numColumns - 1, columnminus);
+                }
+                if (numRows > 1 && numColumns > 0)
+                {
+                    int[,] rowminus = new int[numRows - 1, numColumns];
+                    Array.Copy(lot, numColumns, rowminus, 0, lot.Length - numColumns);
+                    rowresult = removeObstacle(numRows - 1, numColumns, rowminus);
+                }
+
+                if (columnresult != 0 && rowresult != 0)
+                {
+                    steps += Math.Min(columnresult, rowresult);
+                }
+                else if (columnresult != 0 || rowresult != 0)
+                {
+                    steps += Math.Max(columnresult, rowresult);
+                }
+                else
+                {
+                    return 0;
+                }
+
+
+                return steps;
+
             }
+            else
+            {
+                return 0;
+            } */
 
-            Array.Copy(lot, numColumns, rowminus, 0, lot.Length - numColumns);
 
-            return result + Math.Min(removeObstacle(numRows - 1, numColumns, rowminus), removeObstacle(numRows, numColumns - 1, columnminus));
+
 
         }
         public static List<List<int>> ClosestXdestinations(int numDestinations,
